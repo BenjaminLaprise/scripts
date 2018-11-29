@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# -----------------------------------------------------------------------------
+# Info:
+#   author:    Miroslav Vidovic
+#   file:      web-search.sh
+#   created:   24.02.2017.-08:59:54
+#   revision:  ---
+#   version:   1.0
+# -----------------------------------------------------------------------------
+# Requirements:
+#   rofi
+# Description:
+#   Use rofi to search the web.
+# Usage:
+#   web-search.sh
+# -----------------------------------------------------------------------------
+# Script:
+
+main() {
+  # Pass the list to rofi
+  platform="https://www.google.com/search?q="
+
+  query=$( (echo ) | rofi  -dmenu -l 0 -location 0 -p "Query > " )
+  if [[ -n "$query" ]]; then
+    url=$platform$query
+    xdg-open "$url"
+  else
+    rofi -show -e "No query provided."
+  fi
+}
+
+main
+
+exit 0
