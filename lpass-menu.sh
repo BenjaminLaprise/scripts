@@ -77,8 +77,10 @@ if [ -z "${ROFI_SELECTION}" ]; then
     exit
 fi
 
-lpass show -c --password "${ROFI_SELECTION}"
+USERNAME=$(echo ${ROFI_SELECTION} | awk '{print $1}')
+
+lpass show -c --password "${USERNAME}"
 
 if [ $? -ne 0 ]; then
-    zenity --error --text="Login successful but unable to retrieve password for ${ROFI_SELECTION}\n\nTry running this script in a terminal emulator to see error output from lpass."
+    zenity --error --text="Login successful but unable to retrieve password for ${USERNAME}\n\nTry running this script in a terminal emulator to see error output from lpass."
 fi
