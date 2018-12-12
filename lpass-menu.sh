@@ -71,15 +71,15 @@ if [ $? -ne 0 ]; then
     fi
 fi
 
-ROFI_SELECTION="$(lpass ls --format '•%an - %au' | grep '•' | tr '•' '\n' | sed '/^$/d' | ${MENU_CMD} ${MENU_ARGS[@]})"
+ROFI_SELECTION="$(lpass ls --format '•%an %au %ai' | grep '•' | sed -r 's/•//' | ${MENU_CMD} ${MENU_ARGS[@]})"
 
 if [ -z "${ROFI_SELECTION}" ]; then
     exit
 fi
 
-USERNAME=$(echo ${ROFI_SELECTION} | awk '{print $1}')
+ACCOUNT=$(echo ${ROFI_SELECTION} | awk '{print $3}')
 
-lpass show -c --password "${USERNAME}"
+lpass show -c --password "${ACCOUNT}"
 
 if [ $? -ne 0 ]; then
     zenity --error --text="Login successful but unable to retrieve password for ${USERNAME}\n\nTry running this script in a terminal emulator to see error output from lpass."
