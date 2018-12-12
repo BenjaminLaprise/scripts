@@ -71,13 +71,13 @@ if [ $? -ne 0 ]; then
     fi
 fi
 
-ROFI_SELECTION="$(lpass ls --format '•%an %au %ai' | grep '•' | sed -r 's/•//' | ${MENU_CMD} ${MENU_ARGS[@]})"
+ROFI_SELECTION="$(lpass ls --format '•%an %au (%ai)' | grep '•' | sed -r 's/•//' | ${MENU_CMD} ${MENU_ARGS[@]})"
 
 if [ -z "${ROFI_SELECTION}" ]; then
     exit
 fi
 
-ACCOUNT=$(echo ${ROFI_SELECTION} | awk '{print $3}')
+ACCOUNT=$(echo ${ROFI_SELECTION} | awk '{print $3}' | sed 's/^.\(.*\).$/\1/')
 
 lpass show -c --password "${ACCOUNT}"
 
