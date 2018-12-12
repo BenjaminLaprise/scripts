@@ -71,7 +71,7 @@ if [ $? -ne 0 ]; then
     fi
 fi
 
-ROFI_SELECTION="$(lpass ls --format '•%an' | grep '•' | tr '•' '\n' | sed '/^$/d' | ${MENU_CMD} ${MENU_ARGS[@]})"
+ROFI_SELECTION="$(lpass ls --format '•%an - %au' | grep '•' | tr '•' '\n' | sed '/^$/d' | ${MENU_CMD} ${MENU_ARGS[@]})"
 
 if [ -z "${ROFI_SELECTION}" ]; then
     exit
