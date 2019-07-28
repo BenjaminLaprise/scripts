@@ -14,6 +14,18 @@ def count_screens(monitors): return monitors.count(" connected ")
 
 def run_command(cmd): subprocess.Popen(["/bin/bash", "-c", cmd])
 
+def get_vertical_monitors():
+    output = subprocess.run(["bash", "-c", "~/scripts/get_vertical_monitors.sh"], capture_output=True)
+    output = output.stdout.decode('utf-8')
+    return output.strip().split()
+
+def set_wallpapers(monitor_count):
+    vertical_monitors = get_vertical_monitors()
+    for monitor in range(monitor_count):
+        if str(monitor) in vertical_monitors:
+            run_command("~/scripts/random_vertical_wp.sh %s" % monitor)
+        else:
+            run_command("~/scripts/random_wp.sh %s" % monitor)
 
 class AutoXRandrDaemon(Daemon):
     def run(self):
@@ -25,10 +37,9 @@ class AutoXRandrDaemon(Daemon):
             if new_monitor_count != monitor_count:
                 print('Monitor count: %s' % new_monitor_count)
                 run_command("~/.screenlayout/default_%s.sh" % new_monitor_count)
-                run_command("~/.wallpaper/wall_%s" % new_monitor_count)
                 run_command("~/.config/polybar/launch.sh")
+                set_wallpapers(new_monitor_count)
             monitor_count = new_monitor_count
-
 
 if __name__ == "__main__":
     daemon = AutoXRandrDaemon('/tmp/auto-xrandr-daemon.pid')
