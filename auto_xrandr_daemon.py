@@ -48,7 +48,6 @@ if __name__ == "__main__":
             daemon.start()
         elif 'stop' == sys.argv[1]:
             daemon.stop()
-            run_command('killall polybar')
         elif 'run' == sys.argv[1]:
             daemon.restart()
         elif 'restart' == sys.argv[1]:
