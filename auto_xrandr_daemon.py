@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import time
 import subprocess
@@ -36,8 +36,8 @@ class AutoXRandrDaemon(Daemon):
             new_monitor_count = count_screens(get(["xrandr"]))
             if new_monitor_count != monitor_count:
                 print('Monitor count: %s' % new_monitor_count)
-                run_command("~/.screenlayout/default_%s.sh" % new_monitor_count)
-                run_command("~/.config/polybar/launch.sh")
+                run_command("~/.screenlayout/.set_screen_layout_dir.sh" % new_monitor_count)
+                run_command("~/.screenlayout/current.sh" % new_monitor_count)
                 set_wallpapers(new_monitor_count)
             monitor_count = new_monitor_count
 
